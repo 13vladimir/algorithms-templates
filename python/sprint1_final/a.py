@@ -1,14 +1,11 @@
 # A. Ближайший ноль
-# ID посылки: 104052100
+# ID посылки: 104360899
 
 from typing import List, Tuple
 
 
 def calculate_distance(dist: int, house_number: int) -> int:
-    if house_number == 0:
-        return 0
-    else:
-        return dist + 1
+    return 0 if house_number == 0 else dist + 1
 
 
 def near_number(street_length: int, house_number: List[int]) -> List[int]:
