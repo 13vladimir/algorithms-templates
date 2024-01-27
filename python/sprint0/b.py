@@ -1,3 +1,6 @@
+# B. Застёжка-молния
+# ID посылки: 103686480
+
 from typing import List, Tuple
 
 

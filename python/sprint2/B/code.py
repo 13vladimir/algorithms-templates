@@ -1,3 +1,6 @@
+# B. Список дел
+# ID посылки: 104993333
+
 import os
 
 LOCAL = os.environ.get('REMOTE_JUDGE', 'false') != 'true'
@@ -9,10 +12,11 @@ if LOCAL:
             self.next_item = next_item
 
 
-def solution(node):
-    # Your code
-    # ヽ(´▽`)/
-    pass
+def solution(node) -> None:
+    while node:
+        print(node.value)
+        node = node.next_item
+    return node
 
 
 def test():
@@ -30,3 +34,11 @@ def test():
 
 if __name__ == '__main__':
     test()
+
+
+# if __name__ == '__main__':
+#     n = int(input())
+#     node: str = None
+#     for _ in range(n):
+#         node = Node(value=input(), next_item=node)
+#     solution(node)

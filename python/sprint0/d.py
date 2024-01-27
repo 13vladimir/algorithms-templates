@@ -1,3 +1,6 @@
+# D. Две фишки
+# ID посылки: 103694247
+
 from typing import List, Tuple, Optional
 
 
@@ -11,9 +14,9 @@ def two_sum(arr: List[int], target_sum: int, n: int) -> Optional[
 
 
 def read_input() -> Tuple[int, List[int], int]:
-    n = 6
-    arr = [-1, -1, -9, -7, 3, -6]
-    target_sum = 2
+    n = int(input())
+    arr = list(map(int, input().strip().split()))
+    target_sum = int(input())
     return n, arr, target_sum
 
 

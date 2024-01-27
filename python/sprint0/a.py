@@ -1,3 +1,6 @@
+# A. A+B
+# ID посылки: 103376631
+
 from typing import Tuple
 
 

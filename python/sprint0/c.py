@@ -1,3 +1,6 @@
+# C. Скользящее среднее
+# ID посылки: 103686579
+
 from typing import List, Tuple
 
 

@@ -1,3 +1,6 @@
+# E. Две фишки - 2
+# ID посылки: 103697217
+
 from typing import List, Tuple, Optional
 
 

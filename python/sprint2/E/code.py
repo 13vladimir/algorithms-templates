@@ -1,3 +1,6 @@
+# E. Всё наоборот
+# ID посылки:
+
 import os
 
 LOCAL = os.environ.get('REMOTE_JUDGE', 'false') != 'true'
@@ -10,10 +13,21 @@ if LOCAL:
             self.prev = prev
 
 
+def print_linked_list(node):
+    while node:
+        print(node.value, end=' -> ')
+        node = node.next_item
+    print('None')
+
+
 def solution(node):
-    # Your code
-    # ヽ(´▽`)/
-    pass
+    prev = None
+    while node:
+        node.prev, node.next = node.next, node.prev
+        prev = node
+        node = node.prev
+    new_head = prev
+    return new_head
 
 
 def test():
