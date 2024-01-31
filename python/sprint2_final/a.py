@@ -1,5 +1,5 @@
 # A. Дек
-# ID посылки: 105951624
+# ID посылки: 106319745
 
 from typing import List, Tuple
 
@@ -14,72 +14,78 @@ class StackOverflowError(Exception):
         pass
 
 
-class Qeque:
+class Queue:
     def __init__(self, max_size_deque: int):
-        self.queue = [None] * max_size_deque
-        self.max_n = max_size_deque
-        self.head = 0
-        self.tail = -1
-        self.size = 0
+        self.__queue = [None] * max_size_deque
+        self.__max_size = max_size_deque
+        self.__head = 0
+        self.__tail = -1
+        self.__size = 0
 
     def is_empty(self) -> bool:
-        return self.size == 0
+        return self.__size == 0
 
     def is_full(self) -> bool:
-        return self.size == self.max_n
+        return self.__size == self.__max_size
 
-    def push_front(self, x: int) -> None:
+    def calculation(self, operation: str):
+        if operation == 'push_front':
+            self.__head = (self.__head - 1) % self.__max_size
+        elif operation == 'push_back':
+            self.__tail = (self.__tail + 1) % self.__max_size
+        elif operation == 'pop_front':
+            self.__head = (self.__head + 1) % self.__max_size
+        elif operation == 'pop_back':
+            self.__tail = (self.__tail - 1) % self.__max_size
+        else:
+            raise ValueError('Invalid operation')
+
+    def push_front(self, value: int) -> None:
         if self.is_full():
             raise StackOverflowError
-        self.head = (self.head - 1) % self.max_n
-        self.queue[self.head] = x
-        self.size += 1
+        self.calculation('push_front')
+        self.__queue[self.__head] = value
+        self.__size += 1
 
-    def push_back(self, x: int) -> None:
+    def push_back(self, value: int) -> None:
         if self.is_full():
             raise StackOverflowError
-        self.tail = (self.tail + 1) % self.max_n
-        self.queue[self.tail] = x
-        self.size += 1
+        self.calculation('push_back')
+        self.__queue[self.__tail] = value
+        self.__size += 1
 
     def pop_front(self) -> int:
         if self.is_empty():
             raise NoItemsError
-        x = self.queue[self.head]
-        self.head = (self.head + 1) % self.max_n
-        self.size -= 1
-        return x
+        value = self.__queue[self.__head]
+        self.calculation('pop_front')
+        self.__size -= 1
+        return value
 
     def pop_back(self) -> int:
         if self.is_empty():
             raise NoItemsError
-        x = self.queue[self.tail]
-        self.tail = (self.tail - 1) % self.max_n
-        self.size -= 1
-        return x
+        value = self.__queue[self.__tail]
+        self.calculation('pop_back')
+        self.__size -= 1
+        return value
 
 
 def read_input() -> Tuple[int, int, List[int]]:
     amount_commands = int(input())
     max_size_deque = int(input())
-    command = [list(map(str, input().split())) for _ in range(amount_commands)]
-    return max_size_deque, command
+    commands = [list(map(str, input().split()))
+                for _ in range(amount_commands)]
+    return max_size_deque, commands
 
 
 def main():
-    max_size_deque, command = read_input()
-    queue = Qeque(max_size_deque)
-    for i in command:
+    max_size_deque, commands = read_input()
+    queue = Queue(max_size_deque)
+    for command in commands:
         try:
-            if i[0] == 'push_front':
-                queue.push_front(int(i[1]))
-            if i[0] == 'push_back':
-                queue.push_back(int(i[1]))
-            if i[0] == 'pop_front':
-                print(queue.pop_front())
-            if i[0] == 'pop_back':
-                print(queue.pop_back())
-
+            [print(getattr(queue, command[0])())
+             if len(command) == 1 else getattr(queue, command[0])(command[1])]
         except (NoItemsError, StackOverflowError):
             print('error')
 

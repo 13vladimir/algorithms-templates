@@ -1,18 +1,35 @@
 # B. Калькулятор
-# ID посылки: 105954365
+# ID посылки: 106313796
 
 from typing import List, Tuple
 import operator
+
+DICT_OPERATORS = {
+            '+': operator.add,
+            '-': operator.sub,
+            '*': operator.mul,
+            '/': operator.floordiv,
+        }
+
+
+class NoItemsError(Exception):
+    def __init__(self):
+        raise IndexError('Stack is empty')
 
 
 class Stack:
     def __init__(self):
         self.items = []
 
+    def is_empty(self) -> bool:
+        return len(self.items) == 0
+
     def push(self, item: int) -> None:
         self.items.append(item)
 
     def pop(self) -> int:
+        if self.is_empty():
+            raise NoItemsError
         return self.items.pop()
 
 
@@ -24,20 +41,14 @@ def read_input() -> Tuple[List[int]]:
 def main():
     expression = read_input()
     stack = Stack()
-    operators = {
-            '+': operator.add,
-            '-': operator.sub,
-            '*': operator.mul,
-            '/': operator.floordiv,
-        }
 
-    for i in expression:
-        if i in operators:
-            y = stack.pop()
-            x = stack.pop()
-            stack.push(operators[i](x, y))
+    for operators in expression:
+        if operators in DICT_OPERATORS:
+            num2 = stack.pop()
+            num1 = stack.pop()
+            stack.push(DICT_OPERATORS[operators](num1, num2))
         else:
-            stack.push(int(i))
+            stack.push(int(operators))
     print(stack.pop())
 
 
