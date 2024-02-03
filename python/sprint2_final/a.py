@@ -28,29 +28,20 @@ class Queue:
     def is_full(self) -> bool:
         return self.__size == self.__max_size
 
-    def calculation(self, operation: str):
-        if operation == 'push_front':
-            self.__head = (self.__head - 1) % self.__max_size
-        elif operation == 'push_back':
-            self.__tail = (self.__tail + 1) % self.__max_size
-        elif operation == 'pop_front':
-            self.__head = (self.__head + 1) % self.__max_size
-        elif operation == 'pop_back':
-            self.__tail = (self.__tail - 1) % self.__max_size
-        else:
-            raise ValueError('Invalid operation')
+    def calculate(self, value: int, delta: int) -> int:
+        return (value + delta) % self.__max_size
 
     def push_front(self, value: int) -> None:
         if self.is_full():
             raise StackOverflowError
-        self.calculation('push_front')
+        self.__head = self.calculate(self.__head, -1)
         self.__queue[self.__head] = value
         self.__size += 1
 
     def push_back(self, value: int) -> None:
         if self.is_full():
             raise StackOverflowError
-        self.calculation('push_back')
+        self.__tail = self.calculate(self.__tail, 1)
         self.__queue[self.__tail] = value
         self.__size += 1
 
@@ -58,7 +49,7 @@ class Queue:
         if self.is_empty():
             raise NoItemsError
         value = self.__queue[self.__head]
-        self.calculation('pop_front')
+        self.__head = self.calculate(self.__head, 1)
         self.__size -= 1
         return value
 
@@ -66,7 +57,7 @@ class Queue:
         if self.is_empty():
             raise NoItemsError
         value = self.__queue[self.__tail]
-        self.calculation('pop_back')
+        self.__tail = self.calculate(self.__tail, -1)
         self.__size -= 1
         return value
 
@@ -82,10 +73,11 @@ def read_input() -> Tuple[int, int, List[int]]:
 def main():
     max_size_deque, commands = read_input()
     queue = Queue(max_size_deque)
-    for command in commands:
+    for command, *arg in commands:
         try:
-            [print(getattr(queue, command[0])())
-             if len(command) == 1 else getattr(queue, command[0])(command[1])]
+            result = getattr(queue, command)(*arg)
+            if result is not None:
+                print(result)
         except (NoItemsError, StackOverflowError):
             print('error')
 

@@ -1,10 +1,10 @@
 # B. Калькулятор
-# ID посылки: 106313796
+# ID посылки: 106395512
 
 from typing import List, Tuple
 import operator
 
-DICT_OPERATORS = {
+OPERATORS = {
             '+': operator.add,
             '-': operator.sub,
             '*': operator.mul,
@@ -43,10 +43,10 @@ def main():
     stack = Stack()
 
     for operators in expression:
-        if operators in DICT_OPERATORS:
+        if operators in OPERATORS:
             num2 = stack.pop()
             num1 = stack.pop()
-            stack.push(DICT_OPERATORS[operators](num1, num2))
+            stack.push(OPERATORS[operators](num1, num2))
         else:
             stack.push(int(operators))
     print(stack.pop())
